@@ -8,9 +8,7 @@ function Layout() {
   return (
     <div className="Layout max-w-2xl mx-auto">
       <Header />
-      <div className="Card max-w-2xl mx-auto">
-        <Card content="Welcome to Ballpark Housing" />
-      </div>
+
       <div className="App max-w-2xl mx-auto">
         <Textarea />
       </div>

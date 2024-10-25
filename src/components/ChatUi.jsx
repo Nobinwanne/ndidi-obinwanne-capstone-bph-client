@@ -1,5 +1,4 @@
 import { useState } from "react";
-import "./App.css";
 import "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
 
 import {
@@ -11,7 +10,8 @@ import {
   TypingIndicator,
 } from "@chatscope/chat-ui-kit-react";
 
-const api_key = import.meta.env.VITE_OPENAI_API_KEY;
+const api_key = process.env.VITE_OPENAI_API_KEY;
+console.log(api_key);
 
 function App() {
   const [typing, setTyping] = useState(false);

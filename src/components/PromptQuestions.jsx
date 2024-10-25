@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 
 /**
  * @typedef {Object} Question
@@ -10,223 +11,149 @@ import React from "react";
  */
 
 /**
- * @typedef {Object} Scenario
- * @property {string} question - The main question of the scenario.
- * @property {Question[]} questions - A list of related questions in the scenario.
+ * @typedef {Object.<string, Object>} Prompts
+ * @property {Question[]} questions - A list of questions related to the key.
  */
 
-/**
- * @typedef {Object.<string, Object>} PromptQuestion
- * @property {Scenario[]} scenarios - A list of scenarios related to the key.
- */
-
-// Example of a PromptQuestion object
-const prompts = {
-  builder: {
-    scenarios: [
-      {
-        question: "I WANT TO BUILD",
-        questions: [
-          {
-            id: "already_have_lot",
-            question: "DO YOU HAVE A LOT?",
-            options: ["YES", "NO"],
-            next: {
-              YES: "yes",
-              NO: "no",
-            },
-          },
-
-          {
-            id: "yes",
-            question: "UNDERWRITE",
-            options: [],
-            next: {
-              default: "location",
-            },
-          },
-
-          {
-            id: "location",
-            question: "WHERE IS YOUR LOT LOCATED?",
-            options: [],
-            next: {
-              default: "lot_size",
-            },
-          },
-
-          {
-            id: "lot_size",
-            question: "WHAT IS THE SIZE OF YOUR LOT?",
-            options: [],
-            next: {
-              default: "lot_cost",
-            },
-          },
-
-          {
-            id: "lot_cost",
-            question: "WHAT IS THE COST OF YOUR LOT?",
-            options: [],
-            next: {
-              default: "map",
-            },
-          },
-
-          {
-            id: "no",
-            question: "SELECT A PROVINCE",
-            options: [
-              "Alberta",
-              // "British Columbia",
-              // "Manitoba",
-              // "New Brunswick",
-              // "Newfoundland and Labrador",
-              // "Northwest Territories",
-              // "Nova Scotia",
-              // "Nunavut",
-              // "Ontario",
-              // "Prince Edward Island",
-              // "Quebec",
-              // "Saskatchewan",
-              // "Yukon"
-            ],
-            next: {
-              default: "select_city",
-            },
-          },
-
-          {
-            id: "select_city",
-            question: "SELECT A CITY",
-            options: [
-              "Edmonton",
-              "Calgary",
-              "Strathcona County",
-              "Sturgen County",
-              "Parkland County",
-              "Leduc County",
-            ],
-            next: {
-              default: "what_to_build",
-            },
-          },
-
-          {
-            id: "what_to_build",
-            question: "WHAT DO YOU WANT TO BUILD?",
-            options: ["RESIDENTIAL", "COMMERCIAL"],
-            next: {
-              RESIDENTIAL: "kind_of_residential",
-              COMMERCIAL: "kind_of_commercial",
-            },
-          },
-
-          {
-            id: "kind_of_commercial",
-            question: "WHAT TYPE OF COMMERCIAL PROJECT?",
-            options: [
-              "MIXED USE",
-              "RETAIL",
-              "OFFICE",
-              "HOSPITALITY",
-              "INDUSTRIAL",
-              "MULTI-FAMILY",
-            ],
-            next: {
-              "MIXED USE": "where_to_build",
-              OFFICE: "where_to_build",
-              RETAIL: "where_to_build",
-              HOSPITALITY: "where_to_build",
-              INDUSTRIAL: "kind_of_industrial",
-              "MULTI-FAMILY": "how_many_storeys",
-            },
-          },
-
-          {
-            id: "kind_of_industrial",
-            question: "WHAT TYPE OF INDUSTRIAL PROJECT?",
-            options: ["LIGHT", "HEAVY"],
-            next: {
-              default: "where_to_build",
-            },
-          },
-
-          {
-            id: "how_many_storeys",
-            question: "HOW MANY STOREYS?",
-            options: ["5", "6", "7", "8", "9", "10"],
-            next: {
-              default: "where_to_build",
-            },
-          },
-
-          {
-            id: "where_to_build",
-            question: "WHERE DO YOU WANT TO BUILD?",
-            options: ["CITY INFILL", "SUBURBS", "RURAL"],
-            next: {
-              default: "map",
-            },
-          },
-
-          {
-            id: "kind_of_residential",
-            question: "WHAT TYPE OF RESIDENTIAL PROJECT?",
-            options: ["LOW DENSITY", "MULTI-FAMILY"],
-            next: {
-              "MULTI-FAMILY": "storeys",
-              "LOW DENSITY": "where_to_build",
-            },
-          },
-
-          {
-            id: "storeys",
-            question: "HOW MANY STOREYS?",
-            options: ["1", "2", "3", "4"],
-            next: {
-              default: "where_to_build",
-            },
-          },
-        ],
+const Prompts = {
+  Question: [
+    {
+      id: "pick_province",
+      question: "Pick a Province",
+      options: ["Alberta", "Ontario", "Nova Scotia"],
+      next: {
+        default: "pick_city",
       },
-    ],
-  },
+    },
+
+    {
+      id: "pick_city",
+      question: "Pick a City",
+      options: [
+        "Edmonton",
+        "Calgary",
+        "Leduc County",
+        "Starthcona County",
+        "Parkland County",
+        "Sturgeon County",
+      ],
+      next: {
+        default: "category",
+      },
+    },
+    {
+      id: "category",
+      question: "What do you want to Build?",
+      options: ["Residential", "Commercial", "Industrial"],
+      next: {
+        default: "development_type",
+      },
+    },
+    {
+      id: "development_type",
+      question: "What type of development is this?",
+      options: ["City Infill", "Rural", "Urban"],
+      next: {
+        default: "",
+      },
+    },
+  ],
 };
 
-// Main component to render the questions
-const PromptsRenderer = () => {
-  return (
-    <div className="prompts px-4 py-5 sm:p-6">
-      <h1>Questionnaire</h1>
-      {Object.keys(prompts).map((key) => {
-        const prompt = prompts[key];
+const PromptQuestions = () => {
+  const [currentQuestionId, setCurrentQuestionId] = useState("");
+  const [answers, setAnswers] = useState({
+    city: "",
+    category: "",
+  });
+  const [questionIndex, setQuestionIndex] = useState(0);
+  const [optionIndex, setOptionIndex] = useState(0);
 
-        return (
-          <div key={key}>
-            <h2>{key}</h2>
-            {prompt.scenarios.map((scenario, index) => (
-              <div key={index}>
-                <h3>Scenario: {scenario.question}</h3>
-                {scenario.questions.map((question) => (
-                  <div key={question.id} style={{ marginBottom: "20px" }}>
-                    <p>
-                      <strong>Question:</strong> {question.question}
-                    </p>
-                    <ul>
-                      {question.options.map((option, optionIndex) => (
-                        <li key={optionIndex}>{option}</li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
-            ))}
-          </div>
-        );
-      })}
-    </div>
+  const handleQuestionSelect = () => {
+    setQuestionIndex((prevQuestionIndex) => {
+      if (prevQuestionIndex !== Prompts.Question.length - 1) {
+        return prevQuestionIndex + 1;
+      }
+    });
+  };
+
+  const handleOptionSelect = () => {
+    setOptionIndex((prevOptionIndex) => {
+      if (prevOptionIndex !== Prompts.Question.options.length - 1) {
+        return prevOptionIndex + 1;
+      }
+    });
+  };
+
+  return (
+    <>
+      <div className="max-w-2xl mx-auto gap-6 flex justify-between mt-32 overflow-y-scroll">
+        <button
+          onClick={handleQuestionSelect}
+          className="w-full text-left border border-zinc-200 dark:border-zinc-800 text-zinc-800 dark:text-zinc-500 rounded-lg p-2 text-sm hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors flex flex-col"
+        >
+          <span className="font-medium">Click to find listings</span>
+          <span className="text-zinc-500 dark:text-zinc-400">
+            Find Listings
+          </span>
+        </button>
+        <button className="w-full text-left border border-zinc-200 dark:border-zinc-800 text-zinc-800 dark:text-zinc-500 rounded-lg p-2 text-sm hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors flex flex-col">
+          <span className="font-medium">Click to find vacant lots</span>
+          <span className="text-zinc-500 dark:text-zinc-400">
+            Find Vacant Lots
+          </span>
+        </button>
+      </div>
+
+      {/* <div className="max-w-2xl mx-auto gap-6 flex justify-between mt-32 overflow-y-scroll">
+        <button
+          className="w-full text-left border border-zinc-200 dark:border-zinc-800 text-zinc-800 dark:text-zinc-500 rounded-lg p-2 text-sm hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors flex flex-col"
+          onClick={handleOptionSelect}
+        >
+          <span className="w-full text-left border border-zinc-200 dark:border-zinc-800 text-zinc-800 dark:text-zinc-500 rounded-lg p-2 text-sm hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors flex flex-col">
+            {Prompts.Question[questionIndex]?.question}
+          </span>
+          <span className="text-zinc-500 dark:text-zinc-400">
+            Find Listings
+          </span>
+        </button>
+      </div> */}
+    </>
   );
 };
+//       {Object.keys(prompts).map((key) => {
+//         const prompt = prompts[key];
+//         console.log("prompt is: ", prompt);
+//         console.log("key is: ", key);
+//         console.log("prompts scenarios is: ", prompt.scenario);
 
-export default PromptsRenderer;
+//         return (
+//           <div key={key}>
+//             <h2>{key}</h2>
+
+//             {/* {prompt.scenarios[0]?.map((scenario, index) => (
+//               <div key={index}>
+//                 <h3>Scenario: {scenario.question}</h3>
+//                 {scenario.questions.map((question) => (
+//                   <div key={question.id} style={{ marginBottom: "20px" }}>
+//                     <p>
+//                       <strong>Question:</strong> {question.question}
+//                     </p>
+//                     <ul>
+//                       {question.options.map((option, optionIndex) => (
+//                         <li key={optionIndex}>{option}</li>
+//                       ))}
+//                     </ul>
+//                     <button onClick={handleSelection}> Test </button>
+//                   </div>
+//                 ))} */}
+//             {/* </div>
+//             ))} */}
+//           </div>
+//         );
+//       })}
+//     </div>
+//   );
+// };
+
+export default PromptQuestions;
