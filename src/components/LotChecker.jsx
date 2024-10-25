@@ -5,7 +5,7 @@ import extractBoundingBox from "../utils/boundingBox.jsx";
 import "leaflet/dist/leaflet.css";
 import Button from "./Button.jsx";
 
-const LotChecker = ({ content }) => {
+const LotChecker = () => {
   const [address, setAddress] = useState("");
   const [lat, setLat] = useState(53.5461); // Default to Edmonton lat
   const [lon, setLon] = useState(-113.4938); // Default to Edmonton lon
