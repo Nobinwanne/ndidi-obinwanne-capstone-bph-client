@@ -135,3 +135,10 @@ Pinecone
   - traffic data
   - population growth
 - develop ML model to scan site plans and pre-assess permitting application documents
+
+### How to Run Ballpark Housing App
+
+- set up backend with env variables
+- run backend server - npm run start
+- set up frontend with env variables
+- run frontend - npm run dev

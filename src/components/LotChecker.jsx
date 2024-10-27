@@ -1,3 +1,4 @@
+import React from "react";
 import { useState } from "react";
 import axios from "axios";
 import MapComponent from "./MapComponent.jsx";
@@ -41,16 +42,15 @@ const LotChecker = () => {
       setLat(location.lat);
       setLon(location.lon);
 
-      // Check if the lot is vacant
       const data = await checkVacantLot(location.lat, location.lon);
       const boundingBox = extractBoundingBox(data.elements);
 
       if (boundingBox) {
         setBoundingBox(boundingBox);
-        setIsVacant(false); // Not vacant because we found something
+        setIsVacant(false);
       } else {
         setBoundingBox(null);
-        setIsVacant(true); // No buildings or landuse, possibly vacant
+        setIsVacant(true);
       }
     }
   };
@@ -58,8 +58,8 @@ const LotChecker = () => {
   return (
     <>
       <div className="flex flex-col gap-3 overflow-hidden rounded-lg bg-white shadow">
-        <h1>Vacant Lot Checker</h1>
-        <form onSubmit={handleAddressSubmit}>
+        <h1 className="mr-2">Search For Vacant Lots</h1>
+        <form className="flex flex-col gap-3" onSubmit={handleAddressSubmit}>
           <input
             id="lot-form"
             name="lot-form"
@@ -69,11 +69,15 @@ const LotChecker = () => {
             placeholder="Enter address in Edmonton"
             className="form-input overflow-hidden rounded-lg shadow-sm ring-1"
           />
-          <Button content="Check Lot" />
+          <div className="w-20">
+            <Button content="Search" />
+          </div>
         </form>
 
         {isVacant !== null && (
-          <p>{isVacant ? "This lot is vacant" : "This lot is not vacant"}</p>
+          <p className="text-base font-bold text-lime-600">
+            {isVacant ? "This lot is vacant" : "This lot is not vacant"}
+          </p>
         )}
       </div>
       <MapComponent lat={lat} lon={lon} boundingBox={boundingBox} />
