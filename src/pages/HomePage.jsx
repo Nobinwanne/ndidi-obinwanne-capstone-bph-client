@@ -21,6 +21,10 @@ function HomePage() {
     e.preventDefault();
     navigate("/chat");
   };
+  const handleAddListingClick = (e) => {
+    e.preventDefault();
+    navigate("/addlisting");
+  };
 
   return (
     <>
@@ -68,9 +72,12 @@ function HomePage() {
         </div>
 
         <div>
-          <button className="w-full text-left border border-zinc-200 rounded-lg p-2 text-sm hover:bg-zinc-100 transition-colors flex flex-col">
-            <span className="font-medium">Click to Upload a Listing</span>
-            <span className="text-zinc-500 dark:text-zinc-400">Upload</span>
+          <button
+            onClick={handleAddListingClick}
+            className="w-full text-left border border-zinc-200 rounded-lg p-2 text-sm hover:bg-zinc-100 transition-colors flex flex-col"
+          >
+            <span className="font-medium">Click to Add a Listing</span>
+            <span className="text-zinc-500 dark:text-zinc-400">Add</span>
           </button>
         </div>
       </div>

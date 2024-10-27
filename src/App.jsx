@@ -7,7 +7,7 @@ import ChatPage from "./pages/ChatPage.jsx";
 import Footer from "./components/Footer.jsx";
 import ListingsPage from "./pages/ListingsPage.jsx";
 import LotCheckerPage from "./pages/LotCheckerPage.jsx";
-import UploadListing from "./pages/UploadListing.jsx";
+import AddListing from "./pages/AddListingPage.jsx";
 
 function App() {
   return (
@@ -19,7 +19,7 @@ function App() {
           <Route path="/chat" element={<ChatPage />} />
           <Route path="/listings" element={<ListingsPage />} />
           <Route path="/lotchecker" element={<LotCheckerPage />} />
-          <Route path="/upload" element={<UploadListing />} />
+          <Route path="/addlisting" element={<AddListing />} />
         </Routes>
         <Footer />
       </BrowserRouter>

@@ -1,18 +1,19 @@
 import React from "react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 /**
  * @typedef {Object} Question
- * @property {string} id - The ID of the question.
- * @property {string} question - The question text.
- * @property {string[]} options - The options for the question.
- * @property {Object.<string, string>} [next] - Optional next steps object with key-value pairs.
- * @property {string|any} [next.default] - Default next step or fallback value.
+ * @property {string} id
+ * @property {string} question
+ * @property {string[]} options
+ * @property {Object.<string, string>} [next]
+ * @property {string|any} [next.default]
  */
 
 /**
  * @typedef {Object.<string, Object>} Prompts
- * @property {Question[]} questions - A list of questions related to the key.
+ * @property {Question[]} questions
  */
 
 const Prompts = {
@@ -63,6 +64,8 @@ const Prompts = {
 const PromptQuestions = () => {
   const [questionIndex, setQuestionIndex] = useState(0);
 
+  const navigate = useNavigate();
+
   const handleQuestionSelect = () => {
     setQuestionIndex((prevQuestionIndex) => {
       if (prevQuestionIndex !== Prompts.Question.length - 1) {
@@ -71,17 +74,32 @@ const PromptQuestions = () => {
     });
   };
 
+  // const handleSelectChange = (event) => {
+  //   const [optionIndex, setOptionIndex] = useState(0);
+  //   const optionIndex = event.target.selectedIndex;
+  //   const lastIndex = Prompts.Question.options.length - 1;
+
+  //   if (selectedIndex === lastIndex) {
+  //     navigate("/listings");
+  //   }
+  // };
+
   return (
     <>
-      <div className="max-w-2xl mx-auto gap-6 flex justify-between mt-32 overflow-y-scroll">
+      <div className="max-w-2xl mx-auto gap-6 flex justify-between mt-20 overflow-y-scroll">
         <button onClick={handleQuestionSelect}>
-          <div className="w-full text-left border border-zinc-200 dark:border-zinc-80 rounded-lg p-2 text-sm hover:bg-zinc-100 transition-colors flex flex-col">
+          <div className="w-full text-left border border-zinc-200 dark:border-zinc-80 rounded-lg p-2 text-sm hover:bg-zinc-100 transition-colors flex">
             {Prompts.Question[questionIndex]?.question}
-            <select>
-              {Prompts.Question[questionIndex]?.options.map((option, key) => (
-                <option key={key}>{option}</option>
-              ))}
-            </select>
+            <div className="max-w-2xl mx-auto gap-6 flex justify-between mt-10 overflow-y-scroll">
+              <select
+                className="w-full text-left border border-zinc-200 dark:border-zinc-80 rounded-lg p-2 text-sm hover:bg-zinc-100 transition-colors"
+                // onChange={handleSelectChange}
+              >
+                {Prompts.Question[questionIndex]?.options.map((option, key) => (
+                  <option key={key}>{option}</option>
+                ))}
+              </select>
+            </div>
           </div>
         </button>
       </div>

@@ -9,19 +9,6 @@ const baseURL = import.meta.env.VITE_API_URL;
 
 function ListingsPage() {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    address: "",
-    lot_size: "",
-    price: "",
-    description: "",
-    type: "",
-    zone_id: "",
-    amenities_nearby: "",
-    realtor_name: "",
-    realtor_number: "",
-    longitude: "",
-    latitude: "",
-  });
 
   const [listings, setListings] = useState([]);
 
@@ -37,31 +24,6 @@ function ListingsPage() {
   useEffect(() => {
     getListings();
   }, []);
-
-  const addListing = async (event) => {
-    try {
-      const formData = event.target;
-
-      const newListing = {
-        address: formData.address.value,
-        lot_size: formData.lot_size.value,
-        price: formData.price.value,
-        description: formData.description.value,
-        type: formData.type.value,
-        zone_id: formData.zone_id.value,
-        amenities_nearby: formData.amenities_nearby.value,
-        realtor_name: formData.realtor_name.value,
-        realtor_number: formData.realtor_number.value,
-        longitude: formData.longitude.value,
-        latitude: formData.latitude.value,
-      };
-
-      await axios.post(`${baseURL}/listings`, newListing);
-      setListings([]);
-    } catch (err) {
-      console.error("Failed to fetch listings", err);
-    }
-  };
 
   async function deleteListing(listingId) {
     try {
