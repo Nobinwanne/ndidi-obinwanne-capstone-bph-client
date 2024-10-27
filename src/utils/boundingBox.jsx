@@ -1,3 +1,4 @@
+import React from "react";
 export default function extractBoundingBox() {
   const extractBoundingBox = (elements) => {
     if (!elements || elements.length === 0) return null;

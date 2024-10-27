@@ -1,3 +1,4 @@
+import React from "react";
 import { useState } from "react";
 import "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
 
@@ -10,8 +11,7 @@ import {
   TypingIndicator,
 } from "@chatscope/chat-ui-kit-react";
 
-const api_key = process.env.VITE_OPENAI_API_KEY;
-console.log(api_key);
+const api_key = import.meta.env.VITE_OPENAI_API_KEY;
 
 function App() {
   const [typing, setTyping] = useState(false);
@@ -29,21 +29,15 @@ function App() {
       sender: "user",
     };
 
-    const newMessages = [...messages, newMessage]; //all old messages + new messages
-    // update message state
+    const newMessages = [...messages, newMessage];
     setMessages(newMessages);
 
-    //set a typing indicator
     setTyping(true);
 
-    //process message to chatGPT (send it over and see the response)
     await processMessageToBpH(newMessages);
   };
 
   async function processMessageToBpH(chatMessages) {
-    //chatMessages {sender: "user" or "BpH", message: "The message content here"}
-    //apiMessages {role: "user" or "assistant", content: "The message content here"}
-
     let apiMessages = chatMessages.map((messageObject) => {
       let role = "";
       if (messageObject.sender === "BpH") {
@@ -60,14 +54,12 @@ function App() {
     const systemMessage = {
       role: "system",
       content:
-        "Explain all concepts like I am a new real estate developer starting my first deal", //speak like a persona you want to create e.g speak like a realtor
+        "Explain all concepts like I am a new real estate developer starting my first deal",
     };
 
     const apiRequestBody = {
       model: "gpt-3.5-turbo",
-      messages: [
-        ...apiMessages, //[message1, message2, message3...]
-      ],
+      messages: [...apiMessages],
     };
     await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
@@ -96,7 +88,10 @@ function App() {
   return (
     <>
       <div className="App">
-        <div style={{ position: "relative", height: "50rem", width: "44rem" }}>
+        <div
+          className="max-w-2xl mx-auto overflow-hidden rounded-lg bg-white shadow mt-8"
+          style={{ position: "relative", height: "30rem", width: "44rem" }}
+        >
           <MainContainer>
             <ChatContainer>
               <MessageList
