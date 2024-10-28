@@ -8,6 +8,7 @@ import Footer from "./components/Footer.jsx";
 import ListingsPage from "./pages/ListingsPage.jsx";
 import LotCheckerPage from "./pages/LotCheckerPage.jsx";
 import AddListing from "./pages/AddListingPage.jsx";
+import UnderwritePage from "./pages/UnderwritePage.jsx";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/listings" element={<ListingsPage />} />
           <Route path="/lotchecker" element={<LotCheckerPage />} />
           <Route path="/addlisting" element={<AddListing />} />
+          <Route path="/underwrite" element={<UnderwritePage />} />
         </Routes>
         <Footer />
       </BrowserRouter>
