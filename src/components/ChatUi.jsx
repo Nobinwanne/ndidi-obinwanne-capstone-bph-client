@@ -90,7 +90,7 @@ function App() {
       <div className="App">
         <div
           className="max-w-2xl mx-auto overflow-hidden rounded-lg bg-white shadow mt-8"
-          style={{ position: "relative", height: "30rem", width: "44rem" }}
+          style={{ position: "relative", height: "30rem", width: "40rem" }}
         >
           <MainContainer>
             <ChatContainer>

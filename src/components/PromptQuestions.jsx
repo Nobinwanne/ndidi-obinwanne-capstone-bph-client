@@ -71,18 +71,19 @@ const PromptQuestions = () => {
       if (prevQuestionIndex !== Prompts.Question.length - 1) {
         return prevQuestionIndex + 1;
       }
+      navigate("/listings");
+      return prevQuestionIndex;
     });
   };
 
-  // const handleSelectChange = (event) => {
-  //   const [optionIndex, setOptionIndex] = useState(0);
-  //   const optionIndex = event.target.selectedIndex;
-  //   const lastIndex = Prompts.Question.options.length - 1;
+  const handleSelectChange = (event) => {
+    const selectedIndex = event.target.selectedIndex;
+    const optionsLength = Prompts.Question[questionIndex]?.options.length;
 
-  //   if (selectedIndex === lastIndex) {
-  //     navigate("/listings");
-  //   }
-  // };
+    if (selectedIndex === optionsLength - 1) {
+      navigate("/listings");
+    }
+  };
 
   return (
     <>
@@ -90,18 +91,15 @@ const PromptQuestions = () => {
         <button onClick={handleQuestionSelect}>
           <div className="w-full text-left border border-zinc-200 dark:border-zinc-80 rounded-lg p-2 text-sm hover:bg-zinc-100 transition-colors flex">
             {Prompts.Question[questionIndex]?.question}
-            <div className="max-w-2xl mx-auto gap-6 flex justify-between mt-10 overflow-y-scroll">
-              <select
-                className="w-full text-left border border-zinc-200 dark:border-zinc-80 rounded-lg p-2 text-sm hover:bg-zinc-100 transition-colors"
-                // onChange={handleSelectChange}
-              >
-                {Prompts.Question[questionIndex]?.options.map((option, key) => (
-                  <option key={key}>{option}</option>
-                ))}
-              </select>
-            </div>
           </div>
         </button>
+        <div className="max-w-2xl mx-auto gap-6 flex justify-between mt-10 overflow-y-scroll">
+          <select id="options" onChange={handleSelectChange}>
+            {Prompts.Question[questionIndex]?.options.map((option, key) => (
+              <option key={key}>{option}</option>
+            ))}
+          </select>
+        </div>
       </div>
     </>
   );

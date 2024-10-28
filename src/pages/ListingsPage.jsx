@@ -35,10 +35,13 @@ function ListingsPage() {
   }
 
   const deleteListingHandler = (currentListing) => {
-    console.log(currentListing);
     alert("Listing has been successfully deleted");
     navigate("/listings");
     deleteListing(currentListing);
+  };
+
+  const underwriteListingHandler = (currentListing) => {
+    navigate("/underwrite");
   };
 
   return (
@@ -47,27 +50,45 @@ function ListingsPage() {
         <Card />
       </div>
       <div className="Card max-w-2xl mx-auto mt-8">
-        {listings.map((currentListing) => {
+        {listings.map((currentListing, key) => {
           return (
             <>
-              <ul className="max-w-2xl mx-auto bg-clip-padding bg-white shadow gap-2 flex rounded-lg justify-between overflow-y-scroll">
-                <li>{currentListing.address}</li>
-                <li>{currentListing.lot_size}</li>
-                <li>{currentListing.price}</li>
-                <li>{currentListing.type}</li>
-                <li>{currentListing.zone}</li>
-                <li>{currentListing.city}</li>
-                <li>{currentListing.category}</li>
-                <li>{currentListing.amenities_nearby}</li>
-                <li>{currentListing.realtor_name}</li>
-                <li>{currentListing.realtor_number}</li>
-              </ul>
-              <Button
-                className="rounded bg-black py-2 px-4 text-sm text-white data-[hover]:bg-sky-500 data-[active]:bg-sky-700"
-                onClick={() => deleteListingHandler(currentListing.id)}
-              >
-                Delete
-              </Button>
+              <div className="mx-auto bg-clip-padding bg-white shadow gap-4 flex flex-col rounded-lg justify-between overflow-y-scroll">
+                <div className="pl-2 pr-2 max-w-fit rounded-lg">
+                  <img
+                    src={`${baseURL}/images/vacant_lot1.webp`}
+                    alt="listing"
+                  />
+                </div>
+                <ul className="flex flex-col gap-2 m-2">
+                  <li> Address | {currentListing.address}</li>
+                  <li> Size | {currentListing.lot_size}</li>
+                  <li> Price | {currentListing.price}</li>
+                  <li> Type | {currentListing.type}</li>
+                  <li> Zone | {currentListing.zone}</li>
+                  <li> City | {currentListing.city}</li>
+                  <li> Category | {currentListing.category}</li>
+                  <li> Amenities Nearby | {currentListing.amenities_nearby}</li>
+                  <li> Realtor Name | {currentListing.realtor_name}</li>
+                  <li>
+                    Realtor Phone Number | {currentListing.realtor_number}
+                  </li>
+                </ul>
+              </div>
+              <div className="flex justify-evenly">
+                <Button
+                  className="mt-4 mb-4 rounded bg-black py-2 px-4 text-sm text-white data-[hover]:bg-sky-500 data-[active]:bg-sky-700"
+                  onClick={() => deleteListingHandler(currentListing.id)}
+                >
+                  Delete
+                </Button>
+                <Button
+                  className="mt-4 mb-4 rounded bg-black py-2 px-4 text-sm text-white data-[hover]:bg-sky-500 data-[active]:bg-sky-700"
+                  onClick={underwriteListingHandler}
+                >
+                  Underwrite
+                </Button>
+              </div>
             </>
           );
         })}

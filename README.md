@@ -4,7 +4,9 @@ Ballpark Housing
 
 ## Overview
 
-Ballpark Housing is an AI-powered web application that helps real estate professionals access, underwrite, and develop real estate projects.
+Ballpark Housing is an AI-powered web application that helps real estate developers and realtors.
+
+- Developers can access and underwrite listings, Realtors can add listings and and professionals access, underwrite, and develop real estate projects.
 
 ### Problem Space
 
@@ -33,13 +35,18 @@ Boutique Real Estate firms
 - have some resources and want to find lots faster in order to develop more projects.
 - spend months analysing and underwriting deals and so take several months to develop a project.
 
+Realtors
+
+- spend several weeks finding lots and brokering deals
+
 ### Features
 
-- As a user, I want to be able to find available lots within a city of interest
-- As a user, I want to be able to see zoning and lot infrastructure information
-- As a user, I want to be able to underwrite attractive deals quickly so that I have a good idea of project costs
-- As a user, I want a justification for the deals I find on Ballpark Housing
-- As a user, I want to be able to save my query/search histories
+- As a Developer, I want to be able to find available lot listings within a city of interest
+- As a Developer, I want to be able to see zoning information and learn about real estate development
+- As a Developer, I want to be able to underwrite attractive deals quickly so that I have a good idea of project costs
+- As a Realtor, I want to learn about real estate so that I can continually update my knowledge of the field
+- As a Realtor, I want to be able search for vacant lots in a given city
+- As a Realtor, I want to be able to be able to add listings
 
 ## Implementation
 
@@ -47,30 +54,30 @@ Boutique Real Estate firms
 
 - React
 - Javascript
-- Vercel
 - Heroku
 - Mysql
 - Client libraries:
-  - react
-  - react-router
-  - Next.js
-  - axios
+  - React
+  - React-router
+  - Node.js
+  - Axios
+  - Tailwindcss
+  - HeadlessUi
 - Server libraries:
-  - knex
-  - express
+  - Knex
+  - Express
 
 ### APIs
 
 Open ai
-Google maps
-Pinecone
+Overpass api
+Leaflet
 
 ### Sitemap
 
 - the site will be a single page application with a chatgpt user interface
-- queries will be made via prompt engineering
-- prompts will be led by the app
-- a history of user queries will be saved in a side panel
+- ths system will provide direct prompts for users to carry out their queries
+- the site will link to relevant pages based on user queries
 
 ### Mockups
 
@@ -81,8 +88,9 @@ Pinecone
 ### Data
 
 - Data consists of free, publicly available real estate listings from Zillow and Realtor.ca
-- Data has already been scraped using the Python library Beautiful Soup
-- Data is currently in json format
+- Data has already been scraped using the Python library - Beautiful Soup
+- Data was in json format but was migrated into 4 tables in a Mysql database
+- Data tables include - city, category, zone and commercial listings
 - Data consists:
   - lot addresses
   - zoning information
@@ -90,6 +98,8 @@ Pinecone
   - pricing
   - amenities
   - listing description
+  - longitude
+  - latitude
 
 ### DataBase Schema
 
@@ -97,28 +107,27 @@ Pinecone
 
 ### Endpoints
 
-.Get/lots
+.Get/listings
 
-- this will get all available lots within a specified city
+- this will get all available lot listings within a specified city
 
-.Get/lots/category
+.Delete/listings/:id
 
-- this will get all lots for a specific category - residential, commercial or mixed-use
+- this will enable the deletion of a listing using dynamic parameters such as a listing id
 
-.Get/lots/category/zone
+.Post/listing
 
-- this will get lots for a specific category that correspond to specific zones
+- this will enable the creation of a new listing and post it to the database
 
 ## Roadmap
 
-- Preprocess data and migrate them into two tables
-- listings table
-- city zoning table
+- Preprocess data, create tables and migrate data into all 4 tables
 - build server side
   - create mysql db with knex
-  - create endpoints and test all endpoints on postman/thunder client
+  - create endpoints and test all endpoints on thunder client
 - build client side
-  - clone vercel's chatbot ui app
+  - utilize Tailwindcss and its components
+  - utilize healessui and its components
   - develop front end functionality
 - connect front end and backend
 - deploy app
@@ -127,6 +136,7 @@ Pinecone
 
 ## Future Implementations
 
+- develop RAG-architecture to enable personalization of chat messages from the chatbot
 - develop heatmap to show users additional relevant data
   - areas with high development activity
   - areas with high permitting and approvals
@@ -134,6 +144,7 @@ Pinecone
   - future city expansion plans
   - traffic data
   - population growth
+- enhance UI and UX
 - develop ML model to scan site plans and pre-assess permitting application documents
 
 ### How to Run Ballpark Housing App
