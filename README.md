@@ -150,6 +150,10 @@ Leaflet
 ### How to Run Ballpark Housing App
 
 - set up backend with env variables
-- run backend server - npm run start
+  - using data from env.sample, create and connect to ballparkhousing db
+  - run "npm run migrate" to create db tables
+  - run "npm run seed" to seed tables with data
+  - run "npm run start" to start up the server
 - set up frontend with env variables
-- run frontend - npm run dev
+  - open ai api key has been provided in synapse submission
+  - run "npm run dev"
