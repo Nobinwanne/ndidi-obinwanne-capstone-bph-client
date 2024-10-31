@@ -10,7 +10,6 @@ import {
   Input,
   Label,
   Legend,
-  Select,
   Textarea,
 } from "@headlessui/react";
 
@@ -54,7 +53,6 @@ function AddListing() {
     createListing(formData);
     alert("Listing successfully added");
     navigate("/listings");
-    console.log("Listing added");
   };
 
   return (
@@ -124,20 +122,17 @@ function AddListing() {
             </Field>
             <Field className=" flex pr-5 pl-5 overflow-hidden flex-col rounded-lg bg-white shadow">
               <Label htmlFor="type"> Type </Label>
-              <Select
+              <Input
                 className="flex mb-3"
                 type="text"
                 id="type"
                 name="type"
                 value={formData.type}
                 onChange={handleInputChange}
-                placeholder="Enter Lot Type"
+                placeholder="Enter Lot Type - Vacant lot or Business"
                 required
                 autoComplete="on"
-              >
-                <option> Vacant Lot </option>
-                <option> Business </option>
-              </Select>
+              ></Input>
             </Field>
             <Field className="flex pr-5 pl-5 overflow-hidden flex-col rounded-lg bg-white shadow">
               <Label htmlFor="zone_id"> Zone </Label>
@@ -148,7 +143,7 @@ function AddListing() {
                 name="zone_id"
                 value={formData.zone_id}
                 onChange={handleInputChange}
-                placeholder="Select Zone"
+                placeholder="Enter Zone Id between 1 and 74"
                 required
                 autoComplete="on"
               />

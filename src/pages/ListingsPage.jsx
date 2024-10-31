@@ -36,8 +36,8 @@ function ListingsPage() {
 
   const deleteListingHandler = (currentListing) => {
     alert("Listing has been successfully deleted");
-    navigate("/listings");
     deleteListing(currentListing);
+    navigate("/listings");
   };
 
   const underwriteListingHandler = (currentListing) => {

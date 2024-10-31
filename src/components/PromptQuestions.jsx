@@ -72,7 +72,7 @@ const PromptQuestions = () => {
         return prevQuestionIndex + 1;
       }
       navigate("/listings");
-      return prevQuestionIndex;
+      // return prevQuestionIndex;
     });
   };
 
@@ -81,7 +81,7 @@ const PromptQuestions = () => {
     const optionsLength = Prompts.Question[questionIndex]?.options.length;
 
     if (selectedIndex === optionsLength - 1) {
-      navigate("/listings");
+      // navigate("/listings");
     }
   };
 
