@@ -13,13 +13,12 @@ function Underwrite() {
     const softCostPercentage = 0.3;
     const hardCostMultiplier = (80 / 100) * 3;
 
-    const hardCost = hardCostMultiplier * sqFt * hardCostPerSqFt;
+    const lotPriceNum = parseFloat(lotPrice);
+    const sqFtNum = parseFloat(sqFt);
 
+    const hardCost = hardCostMultiplier * sqFtNum * hardCostPerSqFt;
     const softCost = (hardCost / hardCostPercentage) * softCostPercentage;
-
-    const constructionCost = hardCost + softCost;
-
-    const totalCost = parseFloat(lotPrice) + hardCost + softCost;
+    const totalCost = lotPriceNum + hardCost + softCost;
 
     setTotalProjectCost(totalCost);
   };
@@ -28,27 +27,35 @@ function Underwrite() {
     <div className="underwriting-calculator mx-auto m-8 mt-4 flex pr-5 pl-5 overflow-hidden flex-col rounded-lg bg-white shadow max-w-2xl justify-center">
       <h1 className="mt-2 mb-2">Underwriting Calculator</h1>
       <div className="mb-4">
-        <label>Lot Price ($):</label>
-        <input
-          type="number"
-          value={lotPrice}
-          onChange={(e) => setLotPrice(e.target.value)}
-        />
+        <label htmlFor="lot_price">
+          Lot Price ($):
+          <input
+            id="lot_price"
+            type="number"
+            value={lotPrice}
+            onChange={(e) => setLotPrice(e.target.value)}
+          />
+        </label>
       </div>
       <div>
-        <label>Square Footage (sq ft):</label>
-        <input
-          className="mb-2"
-          type="number"
-          value={sqFt}
-          onChange={(e) => setSqFt(e.target.value)}
-        />
+        <label htmlFor="square_footage">
+          Square Footage (sq ft):
+          <input
+            id="square_footage"
+            className="mb-2"
+            type="number"
+            value={sqFt}
+            onChange={(e) => setSqFt(e.target.value)}
+          />
+        </label>
       </div>
       <div className="w-42">
-        <Button
+        <button
+          className="w-42 text-left border border-zinc-200 rounded-lg p-2 text-sm hover:bg-zinc-100 transition-colors flex flex-col"
           onClick={calculateUnderwriting}
-          content="Calculate Total Project Cost"
-        />
+        >
+          Calculate Total Project Cost
+        </button>
       </div>
       <div>
         <h2 className="mt-4">
