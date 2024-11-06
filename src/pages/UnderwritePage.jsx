@@ -1,5 +1,5 @@
 import React from "react";
-import Underwrite from "../components/UnderWrite";
+import Underwrite from "../components/Underwrite";
 import Card from "../components/Card";
 
 function UnderwritePage() {

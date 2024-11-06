@@ -19,7 +19,7 @@ function App() {
     {
       message: "Hello, I am BpH. How can I help you today?",
       sender: "BpH",
-      direction: "outgoing",
+      direction: "incoming",
     },
   ]);
 
@@ -27,6 +27,7 @@ function App() {
     const newMessage = {
       message: message,
       sender: "user",
+      direction: "outgoing",
     };
 
     const newMessages = [...messages, newMessage];
