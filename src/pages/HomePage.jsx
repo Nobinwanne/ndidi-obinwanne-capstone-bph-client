@@ -1,7 +1,7 @@
 import React from "react";
 import Card from "../components/Card";
 import { useState } from "react";
-import PromptQuestions from "../components/PromptQuestions";
+// import PromptQuestions from "../components/PromptQuestions";
 import LotChecker from "../components/LotChecker";
 import { useNavigate } from "react-router-dom";
 
@@ -14,8 +14,11 @@ function HomePage() {
     e.preventDefault();
     navigate("/lotchecker");
   };
-  const handlePromptQuestionsClick = () => {
-    setshowPromptQuestions(true);
+  // const handlePromptQuestionsClick = () => {
+  //   setshowPromptQuestions(true);
+  // };
+  const handleFindListingsClick = (e) => {
+    navigate("/listings");
   };
   const handleChatClick = (e) => {
     e.preventDefault();
@@ -34,7 +37,7 @@ function HomePage() {
       <div className="max-w-2xl mx-auto gap-6 flex justify-between mt-32 overflow-y-scroll pr-5 pl-5">
         <div>
           <button
-            onClick={handlePromptQuestionsClick}
+            onClick={handleFindListingsClick}
             className="w-full text-left border border-zinc-200 rounded-lg p-2 text-sm hover:bg-zinc-100 transition-colors flex flex-col"
           >
             <span className="font-medium">Click to Find Listings</span>
@@ -42,7 +45,7 @@ function HomePage() {
               Find Listings
             </span>
           </button>
-          {showPromptQuestions && <PromptQuestions />}
+          {/* {showPromptQuestions && <PromptQuestions />} */}
         </div>
 
         <div>

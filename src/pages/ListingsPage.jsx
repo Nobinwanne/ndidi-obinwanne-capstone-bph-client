@@ -35,9 +35,10 @@ function ListingsPage() {
   }
 
   const deleteListingHandler = (currentListing) => {
-    alert("Listing has been successfully deleted");
     deleteListing(currentListing);
+    alert("Listing has been successfully deleted");
     navigate("/listings");
+    // getListings();
   };
 
   const underwriteListingHandler = (currentListing) => {
@@ -50,15 +51,19 @@ function ListingsPage() {
         <Card />
       </div>
       <div className="Card max-w-2xl mx-auto mt-8">
-        {listings.map((currentListing, key) => {
+        {listings.map((currentListing, id) => {
           return (
-            <>
+            <div key={currentListing.id}>
               <div className="mx-auto bg-clip-padding bg-white shadow gap-4 flex flex-col rounded-lg justify-between overflow-y-scroll">
                 <div className="pl-2 pr-2 max-w-fit rounded-lg">
                   <img
                     src={`${baseURL}/images/vacant_lot1.webp`}
                     alt="listing"
                   />
+                  {console.log(
+                    "Image URL:",
+                    `${baseURL}/images/vacant_lot1.webp`
+                  )}
                 </div>
                 <ul className="flex flex-col gap-2 m-2">
                   <li> Address | {currentListing.address}</li>
@@ -89,7 +94,7 @@ function ListingsPage() {
                   Underwrite
                 </Button>
               </div>
-            </>
+            </div>
           );
         })}
       </div>

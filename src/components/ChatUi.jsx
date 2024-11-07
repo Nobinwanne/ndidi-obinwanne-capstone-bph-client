@@ -55,12 +55,12 @@ function App() {
     const systemMessage = {
       role: "system",
       content:
-        "Explain all concepts like I am a new real estate developer starting my first deal",
+        "You are a helpful assistant specializing in real estate development. Explain all concepts like I am a new real estate developer starting my first deal",
     };
 
     const apiRequestBody = {
       model: "gpt-3.5-turbo",
-      messages: [...apiMessages],
+      messages: [systemMessage, ...apiMessages],
     };
     await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
@@ -70,50 +70,56 @@ function App() {
       },
       body: JSON.stringify(apiRequestBody),
     })
+      .then((response) => response.json())
       .then((data) => {
-        return data.json();
-      })
-      .then((data) => {
-        console.log(data.choices[0].message.content);
+        const assistantMessage = data.choices[0].message.content;
+
         setMessages([
           ...chatMessages,
           {
-            message: data.choices[0].message.content,
+            message: assistantMessage,
             sender: "BpH",
+            direction: "incoming",
           },
         ]);
+        setTyping(false);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
         setTyping(false);
       });
   }
 
   return (
-    <>
-      <div className="App">
-        <div
-          className="max-w-2xl mx-auto overflow-hidden rounded-lg bg-white shadow mt-8"
-          style={{ position: "relative", height: "30rem", width: "40rem" }}
-        >
-          <MainContainer>
-            <ChatContainer>
-              <MessageList
-                scrollBehavior="smooth"
-                typingIndicator={
-                  typing ? <TypingIndicator content="BpH is Typing" /> : null
-                }
-              >
-                {messages.map((message, i) => {
-                  return <Message key={i} model={message} />;
-                })}
-              </MessageList>
-              <MessageInput
-                placeholder="Type message here"
-                onSend={handleSend}
-              />
-            </ChatContainer>
-          </MainContainer>
-        </div>
+    <div className="App">
+      <div
+        className="max-w-2xl mx-auto overflow-hidden rounded-lg bg-white shadow mt-8"
+        style={{ position: "relative", height: "30rem", width: "40rem" }}
+      >
+        <MainContainer>
+          <ChatContainer>
+            <MessageList
+              scrollBehavior="smooth"
+              typingIndicator={
+                typing ? <TypingIndicator content="BpH is Typing" /> : null
+              }
+            >
+              {messages.map((message, i) => (
+                <Message
+                  key={i}
+                  model={{
+                    message: message.message,
+                    sender: message.sender,
+                    direction: message.direction,
+                  }}
+                />
+              ))}
+            </MessageList>
+            <MessageInput placeholder="Type message here" onSend={handleSend} />
+          </ChatContainer>
+        </MainContainer>
       </div>
-    </>
+    </div>
   );
 }
 
